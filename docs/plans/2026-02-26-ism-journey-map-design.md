@@ -6,7 +6,7 @@
 
 **Architecture:** Static Next.js app with hardcoded seed content (IFI primer data). No backend or database required for MVP. All content lives in typed TypeScript data files. Interactive filtering + visualization done client-side.
 
-**Tech Stack:** Next.js 14 (App Router), React, TypeScript, Tailwind CSS, Framer Motion (animations), Vercel (deployment)
+**Tech Stack:** Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS v4, Framer Motion (animations), Vercel (deployment)
 
 ---
 
