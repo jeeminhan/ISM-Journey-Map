@@ -1,10 +1,7 @@
 // src/app/layout.tsx
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "ISM Journey Map",
@@ -18,7 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-slate-950 text-white min-h-screen antialiased`}>
+      <body className="bg-slate-950 text-white min-h-screen antialiased font-sans">
         <Header />
         {children}
       </body>
