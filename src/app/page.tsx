@@ -1,3 +1,17 @@
+// src/app/page.tsx
+"use client";
+import { useState } from "react";
+import StageSelector from "@/components/StageSelector";
+import { LifecycleStage, WorldviewBackground } from "@/data/types";
+
 export default function Home() {
-  return <main>ISM Journey Map</main>
+  const [stage, setStage] = useState<LifecycleStage>("pre-arrival");
+  const [background, setBackground] = useState<WorldviewBackground>("muslim");
+
+  return (
+    <main className="max-w-6xl mx-auto px-6 py-8 space-y-8">
+      <StageSelector selected={stage} onChange={setStage} />
+      <div className="text-white">Stage: {stage} | Background: {background}</div>
+    </main>
+  );
 }
