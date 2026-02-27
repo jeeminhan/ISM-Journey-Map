@@ -1,7 +1,7 @@
 // src/components/StageSelector.tsx
 "use client";
 import { stages } from "@/data/stages";
-import { LifecycleStage } from "@/data/types";
+import { LifecycleStage, StageColor } from "@/data/types";
 import clsx from "clsx";
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
   onChange: (stage: LifecycleStage) => void;
 }
 
-const colorMap: Record<string, string> = {
+const colorMap: Record<StageColor, string> = {
   indigo: "border-indigo-500 text-indigo-400",
   violet: "border-violet-500 text-violet-400",
   blue: "border-blue-500 text-blue-400",

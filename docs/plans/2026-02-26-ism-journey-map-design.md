@@ -663,7 +663,6 @@ git commit -m "feat: add layout shell and header"
 
 **Files:**
 - Create: `src/components/StageSelector.tsx`
-- Create: `src/components/StageCard.tsx`
 
 **Step 1: Build StageSelector**
 
