@@ -41,6 +41,7 @@ export interface JourneyCell {
 }
 
 export type StageColor = "indigo" | "violet" | "blue" | "emerald" | "amber";
+export type FaithMilestone = "pre-decision" | "decision-window" | "post-decision";
 
 export interface StageInfo {
   id: LifecycleStage;
@@ -49,6 +50,7 @@ export interface StageInfo {
   emotion: string;
   description: string;
   color: StageColor;
+  faithMilestone: FaithMilestone;
 }
 
 export interface BackgroundInfo {

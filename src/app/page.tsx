@@ -9,6 +9,7 @@ import EmpathyMap from "@/components/EmpathyMap";
 import QuotesSection from "@/components/QuotesSection";
 import MinistryPanel from "@/components/MinistryPanel";
 import WorldMap from "@/components/WorldMap";
+import StageJourneyMap from "@/components/StageJourneyMap";
 import { getJourneyCell } from "@/lib/getJourneyCell";
 import { LifecycleStage, WorldviewBackground } from "@/data/types";
 
@@ -30,6 +31,7 @@ export default function Home() {
         </p>
       </section>
       <WorldMap selectedBackground={background} onBackgroundChange={setBackground} />
+      <StageJourneyMap selected={stage} onChange={setStage} />
       <StageSelector selected={stage} onChange={setStage} />
       <BackgroundSelector selected={background} onChange={setBackground} />
       <BackgroundInfoPanel bgId={background} />
