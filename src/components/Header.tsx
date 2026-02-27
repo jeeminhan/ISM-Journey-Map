@@ -6,9 +6,9 @@ export default function Header() {
         <span className="text-sm font-semibold tracking-widest uppercase text-indigo-400">
           ISM
         </span>
-        <h1 className="text-lg font-bold text-white leading-tight">
+        <span className="text-lg font-bold text-white leading-tight block">
           Journey Map
-        </h1>
+        </span>
       </div>
       <p className="text-sm text-slate-400 hidden md:block">
         A missional guide to seeing and loving international students
