@@ -40,13 +40,15 @@ export interface JourneyCell {
   barriers: string[];
 }
 
+export type StageColor = "indigo" | "violet" | "blue" | "emerald" | "amber";
+
 export interface StageInfo {
   id: LifecycleStage;
   label: string;
   subtitle: string;
   emotion: string;
   description: string;
-  color: string; // Tailwind color class
+  color: StageColor;
 }
 
 export interface BackgroundInfo {
@@ -54,5 +56,5 @@ export interface BackgroundInfo {
   label: string;
   worldviewFramework: string;
   description: string;
-  icon: string; // emoji or lucide icon name
+  icon: string; // emoji character representing this worldview background
 }
