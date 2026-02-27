@@ -396,6 +396,62 @@ export const journeyCells: JourneyCell[] = [
     ],
   },
   {
+    stage: "integration",
+    background: "hindu",
+    empathyMap: {
+      seeing: [
+        "Trusted Christian friendships that feel relational rather than transactional",
+        "Parallels between devotion to Bhagwan and personal devotion to Jesus",
+        "The tension between inherited religious identity and emerging spiritual questions",
+      ],
+      hearing: [
+        "Family reminders to stay faithful to Hindu practice and avoid religious mixing",
+        "Christian friends sharing stories of grace, forgiveness, and a personal God",
+        "Peers saying all religions are basically the same, so no change is needed",
+      ],
+      thinkingFeeling: [
+        "Jesus feels deeply attractive, but following him might cost me family trust",
+        "Can I follow Christ without rejecting my culture and community?",
+        "I am curious whether grace can answer what devotion alone cannot",
+      ],
+      sayingDoing: [
+        "Joining discovery-style Bible conversations while keeping questions private",
+        "Comparing Gospel narratives with Hindu philosophical categories",
+        "Testing Christian community through daily life, meals, and vulnerability",
+      ],
+    },
+    quotes: [
+      {
+        text: "I realized I was doing rituals out of duty, but with Jesus I felt invited into relationship. That both drew me in and scared me.",
+        attribution: "Master's student from Karnataka, India",
+      },
+    ],
+    ministry: {
+      posture: "Patient Guide (Devotional Bridge Builder)",
+      approaches: [
+        "Frame discipleship through devotion: who deserves ultimate bhakti and why",
+        "Use story-rich Scripture engagement rather than abstract doctrinal argument first",
+        "Affirm cultural honor while distinguishing culture from ultimate allegiance",
+        "Create safe spaces for hard questions about family pressure, caste, and identity",
+      ],
+      pitfalls: [
+        "Forcing false choices like 'Jesus or Indian culture' too early",
+        "Treating Hindu thought as simplistic instead of engaging it seriously",
+        "Pressuring public decisions before private conviction and support are in place",
+      ],
+    },
+    bridges: [
+      "Bhakti devotion as a relational framework for understanding love for Christ",
+      "Avatar language as a bridge into incarnation conversations",
+      "Community-centered spirituality that resonates with Christian fellowship",
+    ],
+    barriers: [
+      "Family fear that conversion equals cultural betrayal",
+      "Pluralism that dissolves Jesus' uniqueness into a generic spiritual path",
+      "Concern that church life requires adopting Western forms and social separation",
+    ],
+  },
+  {
     stage: "leadership",
     background: "hindu",
     empathyMap: {
@@ -678,6 +734,62 @@ export const journeyCells: JourneyCell[] = [
     ],
   },
   {
+    stage: "leadership",
+    background: "buddhist",
+    empathyMap: {
+      seeing: [
+        "Younger students from Buddhist backgrounds asking the same suffering-and-meaning questions they once asked",
+        "How gentle, embodied Christian community can feel like 'sangha with grace'",
+        "Open doors to serve through hospitality, listening, and contemplative Bible practice",
+      ],
+      hearing: [
+        "ISM leaders saying: 'You can lead in your own cultural voice'",
+        "Friends saying their peace and humility feel authentic, not performative",
+        "The Spirit's invitation to disciple others without abandoning cultural honor",
+      ],
+      thinkingFeeling: [
+        "I do not need to argue loudly to lead faithfully",
+        "I can explain Jesus in ways that respect Buddhist language and concerns",
+        "Leadership feels weighty, but I am no longer carrying it by self-effort alone",
+      ],
+      sayingDoing: [
+        "Facilitating Discovery Bible Studies with Buddhist-background peers",
+        "Sharing testimony through themes of suffering, grace, and true peace",
+        "Mentoring newer believers on how to honor family while following Jesus",
+      ],
+    },
+    quotes: [
+      {
+        text: "I used to think leadership meant having all the answers. Now I mostly ask better questions and point people to Jesus.",
+        attribution: "Graduate student from Taiwan",
+      },
+    ],
+    ministry: {
+      posture: "Gentle Mobilizer (Contextual Disciple-Maker)",
+      approaches: [
+        "Empower them to lead with Buddhist-cultural humility, patience, and careful speech",
+        "Train them to frame the gospel through suffering, compassion, and grace rather than debate-first apologetics",
+        "Help them build simple, reproducible discipleship rhythms: Scripture, prayer, obedience, sharing",
+        "Connect them with Buddhist-background believer mentors from similar cultures",
+      ],
+      pitfalls: [
+        "Pushing confrontational evangelism styles that violate their cultural instincts",
+        "Equating spiritual maturity with Western ministry personality traits",
+        "Skipping family-honor discipleship as they begin leading others",
+      ],
+    },
+    bridges: [
+      "Buddhist respect for disciplined practice can support steady discipleship rhythms",
+      "Compassion and presence as credible witness in high-stress campus environments",
+      "Insider language around suffering and peace that lowers defensiveness",
+    ],
+    barriers: [
+      "Fear of shaming family if leadership appears as rejection of tradition",
+      "Internal pressure to perform leadership perfectly through self-effort",
+      "Limited visible role models of culturally rooted Buddhist-background Christian leaders",
+    ],
+  },
+  {
     stage: "reentry",
     background: "buddhist",
     empathyMap: {
@@ -789,6 +901,62 @@ export const journeyCells: JourneyCell[] = [
       "Scientific materialism as the only valid epistemology",
       "Association of religion with superstition, politics, or intellectual weakness",
       "Parental expectation that religion is irrelevant to their purpose in America",
+    ],
+  },
+  {
+    stage: "arrival",
+    background: "secular",
+    empathyMap: {
+      seeing: [
+        "Campus chaos, administrative pressure, and immediate survival needs",
+        "Friendly Christians offering practical help without forcing religious conversation",
+        "Social groups competing for attention during orientation",
+      ],
+      hearing: [
+        "Parents repeating that grades and career outcomes are the only priority",
+        "Peer skepticism toward religious groups as manipulative or anti-science",
+        "Invitations to meals and events that feel unexpectedly genuine",
+      ],
+      thinkingFeeling: [
+        "I don't have time for religion, but I do need trustworthy people",
+        "These Christians seem kinder than I expected; I still keep my guard up",
+        "Loneliness is stronger than I planned for in the first few weeks",
+      ],
+      sayingDoing: [
+        "Accepting practical support (rides, furniture, housing help) while staying cautious",
+        "Prioritizing orientation tasks, class setup, and visa compliance",
+        "Building a social circle mostly around academic and national networks",
+      ],
+    },
+    quotes: [
+      {
+        text: "I came for my degree, not faith. But when I got sick, the ISM volunteer brought soup and medicine. That made me rethink my assumptions.",
+        attribution: "PhD student from Beijing, China",
+      },
+    ],
+    ministry: {
+      posture: "Credible Friend (Practical Trust Builder)",
+      approaches: [
+        "Lead with concrete service: airport pickup, setup support, and local navigation help",
+        "Ask thoughtful questions about their field and goals to build intellectual respect",
+        "Create low-pressure community touchpoints where belonging precedes belief",
+        "Model integrity and consistency so faith is seen before it is explained",
+      ],
+      pitfalls: [
+        "Opening with debate before trust and relational credibility are established",
+        "Over-promising support and then disappearing after orientation season",
+        "Using service as hidden leverage for immediate spiritual decisions",
+      ],
+    },
+    bridges: [
+      "Practical love that challenges stereotypes about religious people",
+      "Respectful dialogue that treats doubt and questions as legitimate",
+      "Vocational conversations linking purpose, ethics, and identity",
+    ],
+    barriers: [
+      "Suspicion that religion is anti-intellectual or socially controlling",
+      "Extreme time pressure and stress during transition period",
+      "Fear of being socially captured by groups perceived as ideological",
     ],
   },
   {
@@ -1183,6 +1351,62 @@ export const journeyCells: JourneyCell[] = [
       "Denominational gatekeeping that resists personal evangelical faith within traditional structures",
       "Family pressure to maintain inherited religious identity without rocking the boat",
       "Home country churches that may be institutionally resistant to renewal or personal faith emphasis",
+    ],
+  },
+  {
+    stage: "reentry",
+    background: "nominal",
+    empathyMap: {
+      seeing: [
+        "A home church context where Christianity is culturally expected but often spiritually routine",
+        "Family and friends who assume they are the same person they were before studying abroad",
+        "Opportunities to serve inside familiar traditions that now feel newly meaningful",
+      ],
+      hearing: [
+        "Relatives saying: 'You're back, now just settle into normal life again'",
+        "Church language they have heard for years, now landing with deeper personal conviction",
+        "A quiet call to re-evangelize with humility, not superiority",
+      ],
+      thinkingFeeling: [
+        "How do I share real faith without sounding like I am attacking my own tradition?",
+        "I belong here culturally, but I cannot go back to performative religion",
+        "God may have sent me home for renewal, not comfort",
+      ],
+      sayingDoing: [
+        "Reconnecting with local parish/church leaders and serving consistently",
+        "Starting small discipleship conversations with friends who feel spiritually numb",
+        "Sharing testimony in language that honors tradition while inviting personal response",
+      ],
+    },
+    quotes: [
+      {
+        text: "Back home everyone said, 'Of course you're Christian.' For the first time in my life, I answered, 'Yes, and now I actually know Jesus.'",
+        attribution: "Graduate student from Romania",
+      },
+    ],
+    ministry: {
+      posture: "Reentry Renewal Coach",
+      approaches: [
+        "Build a concrete 6-12 month reentry plan before departure, including church, mentors, and mission goals",
+        "Coach them to speak as insiders who love their tradition, not critics standing outside it",
+        "Prepare them for spiritual drift by setting accountable rhythms for Scripture, prayer, and community",
+        "Connect them with renewal-minded leaders within their denomination or network",
+      ],
+      pitfalls: [
+        "Treating return to a 'Christian country' as spiritually low-risk",
+        "Allowing nostalgia for home culture to replace intentional mission",
+        "Framing renewal in ways that dishonor clergy, family, or historic practices",
+      ],
+    },
+    bridges: [
+      "Shared Christian language and symbols can become pathways to deeper personal faith",
+      "Insider trust: they can ask hard spiritual questions without being dismissed as outsiders",
+      "Historic liturgy and sacramental life can be re-engaged with renewed devotion",
+    ],
+    barriers: [
+      "Cultural Christianity that resists personal transformation and accountability",
+      "Social pressure to keep faith private, routine, and non-disruptive",
+      "Institutional fatigue or cynicism in churches that have seen little discipleship renewal",
     ],
   },
 ];

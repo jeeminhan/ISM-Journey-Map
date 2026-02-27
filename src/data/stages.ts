@@ -9,6 +9,7 @@ export const stages: StageInfo[] = [
     description:
       "Before a student ever steps foot on campus, they are forming expectations, fears, and hopes. Ministry can begin here through digital touchpoints that build trust before the first handshake.",
     color: "indigo",
+    faithMilestone: "pre-decision",
   },
   {
     id: "arrival",
@@ -18,6 +19,7 @@ export const stages: StageInfo[] = [
     description:
       "The first 2–4 weeks are the most significant. Students face culture shock, logistical confusion, and acute social isolation. Early relational support here is the strongest predictor of long-term connection.",
     color: "violet",
+    faithMilestone: "pre-decision",
   },
   {
     id: "integration",
@@ -27,6 +29,7 @@ export const stages: StageInfo[] = [
     description:
       "Students begin building rhythms of life, exploring faith questions, and navigating identity between two cultures. Move from being a host to being a guide.",
     color: "blue",
+    faithMilestone: "decision-window",
   },
   {
     id: "leadership",
@@ -36,6 +39,7 @@ export const stages: StageInfo[] = [
     description:
       "The view shifts from students as recipients of ministry to equipping them as partners. Empower them to lead Bible studies, organize outreach, and contextualize the gospel for their own peers.",
     color: "emerald",
+    faithMilestone: "post-decision",
   },
   {
     id: "reentry",
@@ -45,5 +49,6 @@ export const stages: StageInfo[] = [
     description:
       "Often the most neglected phase. Re-entry is not the end of ministry — it is the beginning of multiplication. Transform departure into deployment.",
     color: "amber",
+    faithMilestone: "post-decision",
   },
 ];
