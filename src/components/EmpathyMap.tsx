@@ -1,5 +1,4 @@
 // src/components/EmpathyMap.tsx
-"use client";
 import { EmpathyMap as EmpathyMapType } from "@/data/types";
 
 interface Props {
@@ -7,10 +6,10 @@ interface Props {
 }
 
 const quadrants = [
-  { key: "seeing" as const, label: "👀 What they're seeing", color: "blue" },
-  { key: "hearing" as const, label: "👂 What they're hearing", color: "violet" },
-  { key: "thinkingFeeling" as const, label: "🧠 What they're thinking & feeling", color: "indigo" },
-  { key: "sayingDoing" as const, label: "🗣 What they're saying & doing", color: "emerald" },
+  { key: "seeing" as const, label: "👀 What they're seeing" },
+  { key: "hearing" as const, label: "👂 What they're hearing" },
+  { key: "thinkingFeeling" as const, label: "🧠 What they're thinking & feeling" },
+  { key: "sayingDoing" as const, label: "🗣 What they're saying & doing" },
 ];
 
 export default function EmpathyMap({ data }: Props) {

@@ -1,5 +1,4 @@
 // src/components/MinistryPanel.tsx
-"use client";
 import { JourneyCell } from "@/data/types";
 
 export default function MinistryPanel({ cell }: { cell: JourneyCell }) {

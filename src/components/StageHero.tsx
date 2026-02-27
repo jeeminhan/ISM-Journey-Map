@@ -12,7 +12,8 @@ const colorMap: Record<StageColor, string> = {
 };
 
 export default function StageHero({ stageId }: { stageId: LifecycleStage }) {
-  const stage = stages.find((s) => s.id === stageId)!;
+  const stage = stages.find((s) => s.id === stageId);
+  if (!stage) return null;
   const colors = colorMap[stage.color];
 
   return (

@@ -1,5 +1,4 @@
 // src/components/QuotesSection.tsx
-"use client";
 import { Quote } from "@/data/types";
 
 export default function QuotesSection({ quotes }: { quotes: Quote[] }) {

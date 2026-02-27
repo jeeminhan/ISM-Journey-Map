@@ -1,10 +1,10 @@
 // src/components/BackgroundInfo.tsx
-"use client";
 import { backgrounds } from "@/data/backgrounds";
 import { WorldviewBackground } from "@/data/types";
 
 export default function BackgroundInfoPanel({ bgId }: { bgId: WorldviewBackground }) {
-  const bg = backgrounds.find((b) => b.id === bgId)!;
+  const bg = backgrounds.find((b) => b.id === bgId);
+  if (!bg) return null;
   return (
     <div className="bg-white/5 border border-white/10 rounded-xl p-4 flex gap-4">
       <span className="text-3xl" aria-hidden="true">{bg.icon}</span>
