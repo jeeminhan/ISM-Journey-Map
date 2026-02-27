@@ -2,6 +2,7 @@
 "use client";
 import { useState } from "react";
 import StageSelector from "@/components/StageSelector";
+import BackgroundSelector from "@/components/BackgroundSelector";
 import { LifecycleStage, WorldviewBackground } from "@/data/types";
 
 export default function Home() {
@@ -11,6 +12,7 @@ export default function Home() {
   return (
     <main className="max-w-6xl mx-auto px-6 py-8 space-y-8">
       <StageSelector selected={stage} onChange={setStage} />
+      <BackgroundSelector selected={background} onChange={setBackground} />
       <div className="text-white">Stage: {stage} | Background: {background}</div>
     </main>
   );
