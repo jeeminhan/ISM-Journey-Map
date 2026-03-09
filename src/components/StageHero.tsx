@@ -9,12 +9,16 @@ const colorMap: Record<StageColor, string> = {
   blue: "from-blue-900/40 border-blue-500/30 text-blue-300",
   emerald: "from-emerald-900/40 border-emerald-500/30 text-emerald-300",
   amber: "from-amber-900/40 border-amber-500/30 text-amber-300",
+  rose: "from-rose-900/40 border-rose-700/30 text-rose-300",
+  slate: "from-slate-900/40 border-slate-600/30 text-slate-400",
 };
 
 const milestoneLabel: Record<FaithMilestone, string> = {
   "pre-decision": "Pre-Decision Stage",
   "decision-window": "Decision Window Stage",
   "post-decision": "Post-Decision Growth Stage",
+  "unreached": "Never Reached",
+  "erosion": "Faith at Risk",
 };
 
 export default function StageHero({ stageId }: { stageId: LifecycleStage }) {

@@ -3,6 +3,7 @@ import { StageInfo } from "./types";
 export const stages: StageInfo[] = [
   {
     id: "pre-arrival",
+    stageType: "main",
     label: "Pre-Arrival",
     subtitle: "The Hidden Window",
     emotion: "Anticipation & Fear",
@@ -13,6 +14,7 @@ export const stages: StageInfo[] = [
   },
   {
     id: "arrival",
+    stageType: "main",
     label: "Arrival & Orientation",
     subtitle: "The Vulnerable Phase",
     emotion: "Overwhelmed & Lonely",
@@ -23,6 +25,7 @@ export const stages: StageInfo[] = [
   },
   {
     id: "integration",
+    stageType: "main",
     label: "Integration",
     subtitle: "The Formation Phase",
     emotion: "Curious & Conflicted",
@@ -33,6 +36,7 @@ export const stages: StageInfo[] = [
   },
   {
     id: "leadership",
+    stageType: "main",
     label: "Leadership",
     subtitle: "The Empowerment Phase",
     emotion: "Empowered & Purposeful",
@@ -43,6 +47,7 @@ export const stages: StageInfo[] = [
   },
   {
     id: "reentry",
+    stageType: "main",
     label: "Re-Entry Home",
     subtitle: "The Deployment Phase",
     emotion: "Determined & Pressured",
@@ -50,5 +55,53 @@ export const stages: StageInfo[] = [
       "Often the most neglected phase. Re-entry is not the end of ministry — it is the beginning of multiplication. Transform departure into deployment.",
     color: "amber",
     faithMilestone: "post-decision",
+  },
+  {
+    id: "invisible-years",
+    stageType: "attrition",
+    branchesFrom: "pre-arrival",
+    label: "Invisible Years",
+    subtitle: "The Missed Window",
+    emotion: "Unaware & Self-Sufficient",
+    description:
+      "The student arrives, studies for years, and returns home without a single meaningful Christian encounter. The church saw mission as something overseas — not on campus. This is the default outcome for most international students.",
+    color: "slate",
+    faithMilestone: "unreached",
+  },
+  {
+    id: "drift",
+    stageType: "attrition",
+    branchesFrom: "integration",
+    label: "The Drift",
+    subtitle: "The Fading Phase",
+    emotion: "Forgotten & Indifferent",
+    description:
+      "The student had initial contact but gradually disengages. Hospitality faded after the 'new student' novelty wore off. They retreated into their national social bubble, and no one noticed.",
+    color: "rose",
+    faithMilestone: "erosion",
+  },
+  {
+    id: "silent-exit",
+    stageType: "attrition",
+    branchesFrom: "leadership",
+    label: "Silent Exit",
+    subtitle: "The Unequipped Departure",
+    emotion: "Sentimental & Unequipped",
+    description:
+      "The student departs without re-entry preparation. No training, no network handed off, no plan. Departure happens, but there is no deployment — just goodbye.",
+    color: "rose",
+    faithMilestone: "erosion",
+  },
+  {
+    id: "cultural-reversion",
+    stageType: "attrition",
+    branchesFrom: "reentry",
+    label: "Cultural Reversion",
+    subtitle: "The Quiet Fade",
+    emotion: "Conflicted & Ashamed",
+    description:
+      "Back home: family pressure, no local church, no peer network. Faith quietly fades. The absence of a home church landing pad is the #1 predictor of reversion.",
+    color: "rose",
+    faithMilestone: "erosion",
   },
 ];
