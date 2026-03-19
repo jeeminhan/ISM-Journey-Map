@@ -1,17 +1,8 @@
 // src/components/StageHero.tsx
 "use client";
 import { stages } from "@/data/stages";
-import { FaithMilestone, LifecycleStage, StageColor } from "@/data/types";
-
-const colorMap: Record<StageColor, string> = {
-  indigo: "from-indigo-900/40 border-indigo-500/30 text-indigo-300",
-  violet: "from-violet-900/40 border-violet-500/30 text-violet-300",
-  blue: "from-blue-900/40 border-blue-500/30 text-blue-300",
-  emerald: "from-emerald-900/40 border-emerald-500/30 text-emerald-300",
-  amber: "from-amber-900/40 border-amber-500/30 text-amber-300",
-  rose: "from-rose-900/40 border-rose-700/30 text-rose-300",
-  slate: "from-slate-900/40 border-slate-600/30 text-slate-400",
-};
+import { FaithMilestone, LifecycleStage } from "@/data/types";
+import { stageColors } from "@/lib/stageColors";
 
 const milestoneLabel: Record<FaithMilestone, string> = {
   "pre-decision": "Pre-Decision Stage",
@@ -24,11 +15,11 @@ const milestoneLabel: Record<FaithMilestone, string> = {
 export default function StageHero({ stageId }: { stageId: LifecycleStage }) {
   const stage = stages.find((s) => s.id === stageId);
   if (!stage) return null;
-  const colors = colorMap[stage.color];
+  const colors = stageColors[stage.color];
 
   return (
-    <div className={`rounded-2xl border bg-gradient-to-br ${colors} to-transparent p-6`}>
-      <div className={`text-sm font-semibold uppercase tracking-wider mb-1 ${colors.split(" ")[2]}`}>
+    <div className={`rounded-2xl border bg-gradient-to-br ${colors.gradient} to-transparent p-6`}>
+      <div className={`text-sm font-semibold uppercase tracking-wider mb-1 ${colors.text}`}>
         {stage.subtitle}
       </div>
       <h2 className="text-3xl font-bold text-white mb-2">{stage.label}</h2>

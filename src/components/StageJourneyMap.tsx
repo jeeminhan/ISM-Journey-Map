@@ -1,23 +1,14 @@
 "use client";
 
 import { stages } from "@/data/stages";
-import { FaithMilestone, LifecycleStage, StageColor } from "@/data/types";
+import { FaithMilestone, LifecycleStage } from "@/data/types";
+import { stageColors } from "@/lib/stageColors";
 import clsx from "clsx";
 
 interface Props {
   selected: LifecycleStage;
   onChange: (stage: LifecycleStage) => void;
 }
-
-const colorMap: Record<StageColor, { text: string; ring: string; bg: string }> = {
-  indigo: { text: "text-indigo-300", ring: "ring-indigo-400", bg: "bg-indigo-500" },
-  violet: { text: "text-violet-300", ring: "ring-violet-400", bg: "bg-violet-500" },
-  blue: { text: "text-blue-300", ring: "ring-blue-400", bg: "bg-blue-500" },
-  emerald: { text: "text-emerald-300", ring: "ring-emerald-400", bg: "bg-emerald-500" },
-  amber: { text: "text-amber-300", ring: "ring-amber-400", bg: "bg-amber-500" },
-  rose: { text: "text-rose-300", ring: "ring-rose-400", bg: "bg-rose-700" },
-  slate: { text: "text-slate-400", ring: "ring-slate-500", bg: "bg-slate-600" },
-};
 
 const milestoneMeta: Record<FaithMilestone, { label: string; tone: string }> = {
   "pre-decision": {
@@ -62,9 +53,10 @@ export default function StageJourneyMap({ selected, onChange }: Props) {
     <section className="rounded-2xl border border-white/10 bg-slate-900/70 p-5 md:p-6">
       <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h3 className="text-xl font-semibold text-white">Faith Journey World Map</h3>
+          <h3 className="text-xl font-semibold text-white">Student Journey Map</h3>
           <p className="text-sm text-slate-300">
-            Continents represent spiritual movement: pre-decision, decision bridge, and post-decision growth.
+            Follow the main lifecycle and note where students are commonly lost. Milestone labels show
+            where each stage often sits in spiritual openness.
           </p>
         </div>
       </div>
@@ -83,7 +75,7 @@ export default function StageJourneyMap({ selected, onChange }: Props) {
             .filter((s) => s.stageType === "main")
             .map((stage, index) => {
               const isSelected = stage.id === selected;
-              const colors = colorMap[stage.color];
+              const colors = stageColors[stage.color];
               const milestone = milestoneMeta[stage.faithMilestone];
 
               return (
@@ -127,21 +119,16 @@ export default function StageJourneyMap({ selected, onChange }: Props) {
           {stages
             .filter((s) => s.stageType === "attrition")
             .map((stage) => {
-              const isSelected = stage.id === selected;
-              const colors = colorMap[stage.color];
+              const colors = stageColors[stage.color];
               const milestone = milestoneMeta[stage.faithMilestone];
 
               return (
-                <button
+                <div
                   key={stage.id}
-                  type="button"
-                  onClick={() => onChange(stage.id)}
                   className={clsx(
-                    "rounded-xl border px-3 py-2 text-left transition opacity-80 hover:opacity-100",
-                    "bg-slate-950/90 border-rose-900/50 hover:border-rose-500/70",
-                    isSelected && clsx("ring-2", colors.ring, "border-rose-500/70 opacity-100")
+                    "rounded-xl border px-3 py-2 text-left opacity-80",
+                    "bg-slate-950/90 border-rose-900/50"
                   )}
-                  aria-pressed={isSelected}
                 >
                   <div className="mb-1 flex items-center gap-2">
                     <span className="text-rose-400 text-xs">↘</span>
@@ -153,7 +140,7 @@ export default function StageJourneyMap({ selected, onChange }: Props) {
                   <span className={clsx("mt-2 inline-flex rounded-full border px-2 py-0.5 text-[11px]", milestone.tone)}>
                     {milestone.label}
                   </span>
-                </button>
+                </div>
               );
             })}
         </div>
@@ -235,13 +222,13 @@ export default function StageJourneyMap({ selected, onChange }: Props) {
             </g>
 
             <text x="145" y="88" fill="#bae6fd" fontSize="12" fontWeight="700" letterSpacing="1.2">
-              PRE-DECISION CONTINENT
+              EARLY JOURNEY
             </text>
             <text x="412" y="80" fill="#a5f3fc" fontSize="12" fontWeight="700" letterSpacing="1.2">
               DECISION BRIDGE
             </text>
             <text x="665" y="92" fill="#bbf7d0" fontSize="12" fontWeight="700" letterSpacing="1.2">
-              POST-DECISION CONTINENT
+              GROWTH & SENDING
             </text>
           </svg>
 
@@ -252,7 +239,7 @@ export default function StageJourneyMap({ selected, onChange }: Props) {
               if (!pos) return null;
 
               const isSelected = stage.id === selected;
-              const colors = colorMap[stage.color];
+              const colors = stageColors[stage.color];
               const milestone = milestoneMeta[stage.faithMilestone];
 
               return (
@@ -294,22 +281,17 @@ export default function StageJourneyMap({ selected, onChange }: Props) {
             .map((stage) => {
               const pos = attritionNodePositions[stage.id];
               if (!pos) return null;
-              const isSelected = stage.id === selected;
-              const colors = colorMap[stage.color];
+              const colors = stageColors[stage.color];
               const milestone = milestoneMeta[stage.faithMilestone];
 
               return (
-                <button
+                <div
                   key={stage.id}
-                  type="button"
-                  onClick={() => onChange(stage.id)}
                   className={clsx(
-                    "absolute -translate-x-1/2 -translate-y-1/2 rounded-xl border px-3 py-2 text-left transition opacity-80 hover:opacity-100",
-                    "bg-slate-950/90 border-rose-900/50 hover:border-rose-500/70",
-                    isSelected && clsx("ring-2", colors.ring, "border-rose-500/70 opacity-100")
+                    "absolute -translate-x-1/2 -translate-y-1/2 rounded-xl border px-3 py-2 text-left opacity-80",
+                    "bg-slate-950/90 border-rose-900/50"
                   )}
                   style={{ left: `${pos.x}%`, top: `${pos.y}%`, width: "168px" }}
-                  aria-pressed={isSelected}
                 >
                   <div className="mb-1 flex items-center gap-2">
                     <span className="text-rose-400 text-xs">↘</span>
@@ -321,7 +303,7 @@ export default function StageJourneyMap({ selected, onChange }: Props) {
                   <span className={clsx("mt-2 inline-flex rounded-full border px-2 py-0.5 text-[11px]", milestone.tone)}>
                     {milestone.label}
                   </span>
-                </button>
+                </div>
               );
             })}
         </div>

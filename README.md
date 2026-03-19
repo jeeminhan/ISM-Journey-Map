@@ -7,13 +7,12 @@ An interactive tool for international student ministry workers to explore how to
 ## Features
 
 - **Stage x Background matrix** — Select from five lifecycle stages (Pre-Arrival, Arrival & Orientation, Integration, Leadership, Re-Entry Home) and five worldview backgrounds (Muslim, Hindu, Buddhist, Secular/Postmodern, Nominally Religious) to surface content tailored to that combination.
-- **Attrition off-ramp stages** — Three named failure modes (Invisible Years, The Drift, Silent Exit, Cultural Reversion) modeled as branches off the main journey, visualizing where students are commonly lost.
+- **Attrition off-ramp markers** — Four named failure modes (Invisible Years, The Drift, Silent Exit, Cultural Reversion) shown alongside the main journey to visualize where students are commonly lost.
 - **Empathy maps** — Per-cell breakdowns of what a student is seeing, hearing, thinking/feeling, and saying/doing at that stage.
 - **Ministry panels** — Practical ministry posture, recommended approaches, common pitfalls, cultural bridges, and barriers for each stage-background combination.
 - **Quotes section** — Anonymized first-person student quotes surfaced per cell.
-- **World country map** — Interactive SVG world map that highlights countries associated with each worldview background; clicking a region updates the selected background.
-- **Stage journey map** — Visual linear map of the main lifecycle with attrition branches shown inline.
-- **Animated transitions** — Stage and background changes animate with Framer Motion.
+- **Stage journey map** — Visual map of the main lifecycle with attrition branches shown inline.
+- **Lightweight transitions** — Stage and background changes fade between content panels.
 
 ## Tech Stack
 
@@ -23,8 +22,8 @@ An interactive tool for international student ministry workers to explore how to
 | UI library | React 19 |
 | Language | TypeScript 5 |
 | Styling | Tailwind CSS 4 |
-| Animation | Framer Motion |
-| Icons | Lucide React |
+| Animation | CSS keyframes |
+| Typography | Geist Sans / Geist Mono |
 | Deployment | Vercel |
 
 ## Getting Started
