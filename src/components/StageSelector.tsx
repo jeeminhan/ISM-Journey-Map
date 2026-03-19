@@ -15,12 +15,14 @@ const colorMap: Record<StageColor, string> = {
   blue: "border-blue-500 text-blue-400",
   emerald: "border-emerald-500 text-emerald-400",
   amber: "border-amber-500 text-amber-400",
+  rose: "border-rose-500 text-rose-400",
+  slate: "border-slate-500 text-slate-400",
 };
 
 export default function StageSelector({ selected, onChange }: Props) {
   return (
     <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
-      {stages.map((stage, i) => (
+      {stages.filter((s) => s.stageType === "main").map((stage, i) => (
         <button
           key={stage.id}
           onClick={() => onChange(stage.id)}

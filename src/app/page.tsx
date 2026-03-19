@@ -1,15 +1,13 @@
 // src/app/page.tsx
 "use client";
 import { useState } from "react";
-import StageSelector from "@/components/StageSelector";
 import BackgroundSelector from "@/components/BackgroundSelector";
+import StageMap from "@/components/StageMap";
 import StageHero from "@/components/StageHero";
 import BackgroundInfoPanel from "@/components/BackgroundInfo";
 import EmpathyMap from "@/components/EmpathyMap";
 import QuotesSection from "@/components/QuotesSection";
 import MinistryPanel from "@/components/MinistryPanel";
-import WorldMap from "@/components/WorldMap";
-import StageJourneyMap from "@/components/StageJourneyMap";
 import { getJourneyCell } from "@/lib/getJourneyCell";
 import { LifecycleStage, WorldviewBackground } from "@/data/types";
 
@@ -30,23 +28,28 @@ export default function Home() {
           alongside international students with empathy and strategic clarity.
         </p>
       </section>
-      <WorldMap selectedBackground={background} onBackgroundChange={setBackground} />
-      <StageJourneyMap selected={stage} onChange={setStage} />
-      <StageSelector selected={stage} onChange={setStage} />
-      <BackgroundSelector selected={background} onChange={setBackground} />
-      <BackgroundInfoPanel bgId={background} />
-      <StageHero stageId={stage} />
-      {cell ? (
-        <>
-          <EmpathyMap data={cell.empathyMap} />
-          <QuotesSection quotes={cell.quotes} />
-          <MinistryPanel cell={cell} />
-        </>
-      ) : (
-        <div className="text-slate-500 italic text-sm p-6 border border-white/10 rounded-xl">
-          Content for this combination coming soon.
-        </div>
-      )}
+
+      <StageMap selected={stage} onChange={setStage} />
+
+      <section className="space-y-4">
+        <BackgroundSelector selected={background} onChange={setBackground} />
+      </section>
+
+      <div key={`${stage}-${background}`} className="space-y-8 animate-fade-in">
+        <BackgroundInfoPanel bgId={background} />
+        <StageHero stageId={stage} />
+        {cell ? (
+          <>
+            <EmpathyMap data={cell.empathyMap} />
+            <QuotesSection quotes={cell.quotes} />
+            <MinistryPanel cell={cell} />
+          </>
+        ) : (
+          <div className="text-slate-500 italic text-sm p-6 border border-white/10 rounded-xl">
+            Content for this combination coming soon.
+          </div>
+        )}
+      </div>
     </main>
   );
 }

@@ -3,7 +3,11 @@ export type LifecycleStage =
   | "arrival"
   | "integration"
   | "leadership"
-  | "reentry";
+  | "reentry"
+  | "invisible-years"
+  | "drift"
+  | "silent-exit"
+  | "cultural-reversion";
 
 export type WorldviewBackground =
   | "muslim"
@@ -40,11 +44,18 @@ export interface JourneyCell {
   barriers: string[];
 }
 
-export type StageColor = "indigo" | "violet" | "blue" | "emerald" | "amber";
-export type FaithMilestone = "pre-decision" | "decision-window" | "post-decision";
+export type StageColor = "indigo" | "violet" | "blue" | "emerald" | "amber" | "rose" | "slate";
+export type FaithMilestone =
+  | "pre-decision"
+  | "decision-window"
+  | "post-decision"
+  | "unreached"
+  | "erosion";
 
 export interface StageInfo {
   id: LifecycleStage;
+  stageType: "main" | "attrition";
+  branchesFrom?: LifecycleStage;
   label: string;
   subtitle: string;
   emotion: string;
