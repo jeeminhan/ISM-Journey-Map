@@ -6,10 +6,11 @@ import { LifecycleStage, StageColor } from "@/data/types";
 import { stageColors } from "@/lib/stageColors";
 import clsx from "clsx";
 import { useCallback } from "react";
+import { useRouter } from "next/navigation";
 
 interface Props {
-  selected: LifecycleStage;
-  onChange: (stage: LifecycleStage) => void;
+  selected?: LifecycleStage;
+  onChange?: (stage: LifecycleStage) => void;
 }
 
 /* ------------------------------------------------------------------ */
@@ -27,7 +28,7 @@ interface RegionMeta {
   strokeSelected: string;
 }
 
-const REGION_META: Record<LifecycleStage, RegionMeta> = {
+export const REGION_META: Record<LifecycleStage, RegionMeta> = {
   /* ---- main stages (upper archipelago) ---- */
   "pre-arrival": {
     id: "pre-arrival",
@@ -274,14 +275,27 @@ function Anchor() {
 /* ------------------------------------------------------------------ */
 
 export default function StageMap({ selected, onChange }: Props) {
+  const router = useRouter();
+
+  const handleChange = useCallback(
+    (id: LifecycleStage) => {
+      if (onChange) {
+        onChange(id);
+      } else {
+        router.push(`/stage/${id}`);
+      }
+    },
+    [onChange, router],
+  );
+
   const handleKey = useCallback(
     (e: React.KeyboardEvent, id: LifecycleStage) => {
       if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
-        onChange(id);
+        handleChange(id);
       }
     },
-    [onChange],
+    [handleChange],
   );
 
   const stageMap = Object.fromEntries(stages.map((s) => [s.id, s])) as Record<LifecycleStage, (typeof stages)[number]>;
@@ -299,13 +313,13 @@ export default function StageMap({ selected, onChange }: Props) {
             {stages
               .filter((s) => s.stageType === "main")
               .map((stage) => {
-                const isSel = stage.id === selected;
+                const isSel = selected !== undefined && stage.id === selected;
                 const colors = stageColors[stage.color];
                 return (
                   <button
                     key={stage.id}
                     type="button"
-                    onClick={() => onChange(stage.id)}
+                    onClick={() => handleChange(stage.id)}
                     className={clsx(
                       "flex w-full items-center gap-3 rounded-xl border px-3 py-2.5 text-left transition",
                       isSel
@@ -337,13 +351,13 @@ export default function StageMap({ selected, onChange }: Props) {
             {stages
               .filter((s) => s.stageType === "attrition")
               .map((stage) => {
-                const isSel = stage.id === selected;
+                const isSel = selected !== undefined && stage.id === selected;
                 const colors = stageColors[stage.color];
                 return (
                   <button
                     key={stage.id}
                     type="button"
-                    onClick={() => onChange(stage.id)}
+                    onClick={() => handleChange(stage.id)}
                     className={clsx(
                       "flex w-full items-center gap-3 rounded-xl border px-3 py-2.5 text-left transition opacity-80",
                       isSel
@@ -471,13 +485,13 @@ export default function StageMap({ selected, onChange }: Props) {
           {stages.map((stage) => {
             const meta = REGION_META[stage.id];
             if (!meta) return null;
-            const isSel = stage.id === selected;
+            const isSel = selected !== undefined && stage.id === selected;
 
             return (
               <g
                 key={stage.id}
                 style={{ cursor: "pointer" }}
-                onClick={() => onChange(stage.id)}
+                onClick={() => handleChange(stage.id)}
                 onKeyDown={(e) => handleKey(e, stage.id)}
                 role="button"
                 tabIndex={0}
