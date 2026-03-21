@@ -2,14 +2,13 @@
 "use client";
 
 import { stages } from "@/data/stages";
-import { LifecycleStage, StageColor } from "@/data/types";
-import { stageColors } from "@/lib/stageColors";
-import clsx from "clsx";
+import { LifecycleStage } from "@/data/types";
 import { useCallback } from "react";
+import { useRouter } from "next/navigation";
 
 interface Props {
-  selected: LifecycleStage;
-  onChange: (stage: LifecycleStage) => void;
+  selected?: LifecycleStage;
+  onChange?: (stage: LifecycleStage) => void;
 }
 
 /* ------------------------------------------------------------------ */
@@ -27,7 +26,7 @@ interface RegionMeta {
   strokeSelected: string;
 }
 
-const REGION_META: Record<LifecycleStage, RegionMeta> = {
+export const REGION_META: Record<LifecycleStage, RegionMeta> = {
   /* ---- main stages (upper archipelago) ---- */
   "pre-arrival": {
     id: "pre-arrival",
@@ -148,17 +147,6 @@ const CONNECTIONS: Connection[] = [
   { from: "silent-exit", to: "cultural-reversion", path: "M800 598 C845 592,880 582,902 572", color: "rgba(148,163,184,0.25)" },
 ];
 
-/* Colour lookup for mobile dots */
-const DOT_COLORS: Record<StageColor, string> = {
-  indigo: "#818cf8",
-  violet: "#a78bfa",
-  blue: "#60a5fa",
-  emerald: "#34d399",
-  amber: "#fcd34d",
-  rose: "#fb7185",
-  slate: "#94a3b8",
-};
-
 /* ------------------------------------------------------------------ */
 /*  Decorative SVG helpers                                            */
 /* ------------------------------------------------------------------ */
@@ -274,103 +262,39 @@ function Anchor() {
 /* ------------------------------------------------------------------ */
 
 export default function StageMap({ selected, onChange }: Props) {
+  const router = useRouter();
+
+  const handleChange = useCallback(
+    (id: LifecycleStage) => {
+      if (onChange) {
+        onChange(id);
+      } else {
+        router.push(`/stage/${id}`);
+      }
+    },
+    [onChange, router],
+  );
+
   const handleKey = useCallback(
     (e: React.KeyboardEvent, id: LifecycleStage) => {
       if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
-        onChange(id);
+        handleChange(id);
       }
     },
-    [onChange],
+    [handleChange],
   );
 
   const stageMap = Object.fromEntries(stages.map((s) => [s.id, s])) as Record<LifecycleStage, (typeof stages)[number]>;
 
   return (
     <section className="rounded-2xl border border-white/10 bg-slate-900/70 p-4 md:p-6">
-      {/* ============ MOBILE ============ */}
-      <div className="md:hidden space-y-4">
-        <h3 className="text-lg font-semibold text-white mb-1">Student Journey Map</h3>
+      {/* Scroll hint — only visible on mobile */}
+      <p className="md:hidden text-xs text-slate-500 text-right mb-2 select-none">scroll to explore →</p>
 
-        {/* Main Journey */}
-        <div>
-          <p className="text-xs uppercase tracking-widest text-slate-400 mb-2">Main Journey</p>
-          <div className="space-y-1.5">
-            {stages
-              .filter((s) => s.stageType === "main")
-              .map((stage) => {
-                const isSel = stage.id === selected;
-                const colors = stageColors[stage.color];
-                return (
-                  <button
-                    key={stage.id}
-                    type="button"
-                    onClick={() => onChange(stage.id)}
-                    className={clsx(
-                      "flex w-full items-center gap-3 rounded-xl border px-3 py-2.5 text-left transition",
-                      isSel
-                        ? clsx("ring-2 border-white/40", colors.ring, "bg-white/5")
-                        : "border-white/10 hover:border-white/20 bg-slate-900/60",
-                    )}
-                    aria-pressed={isSel}
-                  >
-                    <span
-                      className="block h-3 w-3 flex-shrink-0 rounded-full"
-                      style={{ background: DOT_COLORS[stage.color] }}
-                    />
-                    <div>
-                      <span className={clsx("text-sm font-semibold", isSel ? "text-white" : "text-slate-200")}>
-                        {stage.label}
-                      </span>
-                      <span className="ml-2 text-xs text-slate-400">{stage.subtitle}</span>
-                    </div>
-                  </button>
-                );
-              })}
-          </div>
-        </div>
-
-        {/* Attrition Off-Ramps */}
-        <div>
-          <p className="text-xs uppercase tracking-widest text-rose-400/70 mb-2">Attrition Off-Ramps</p>
-          <div className="space-y-1.5">
-            {stages
-              .filter((s) => s.stageType === "attrition")
-              .map((stage) => {
-                const isSel = stage.id === selected;
-                const colors = stageColors[stage.color];
-                return (
-                  <button
-                    key={stage.id}
-                    type="button"
-                    onClick={() => onChange(stage.id)}
-                    className={clsx(
-                      "flex w-full items-center gap-3 rounded-xl border px-3 py-2.5 text-left transition opacity-80",
-                      isSel
-                        ? clsx("ring-2 border-white/40", colors.ring, "bg-white/5")
-                        : "border-white/10 hover:border-white/20 bg-slate-950/60",
-                    )}
-                    aria-pressed={isSel}
-                  >
-                    <span
-                      className="block h-3 w-3 flex-shrink-0 rounded-full"
-                      style={{ background: DOT_COLORS[stage.color] }}
-                    />
-                    <div>
-                      <span className={clsx("text-sm font-semibold", isSel ? "text-white" : "text-slate-300")}>
-                        {stage.label}
-                      </span>
-                      <span className="ml-2 text-xs text-slate-500">{stage.subtitle}</span>
-                    </div>
-                  </button>
-                );
-              })}
-          </div>
-        </div>
-      </div>
-
-      {/* ============ DESKTOP SVG MAP ============ */}
-      <div className="hidden md:block">
+      {/* ============ SVG MAP (all screen sizes, scrollable on mobile) ============ */}
+      <div className="overflow-x-auto -mx-4 md:mx-0 px-4 md:px-0">
+        <div className="min-w-[960px]">
         <svg
           viewBox="0 0 1200 720"
           className="w-full h-auto"
@@ -471,13 +395,13 @@ export default function StageMap({ selected, onChange }: Props) {
           {stages.map((stage) => {
             const meta = REGION_META[stage.id];
             if (!meta) return null;
-            const isSel = stage.id === selected;
+            const isSel = selected !== undefined && stage.id === selected;
 
             return (
               <g
                 key={stage.id}
                 style={{ cursor: "pointer" }}
-                onClick={() => onChange(stage.id)}
+                onClick={() => handleChange(stage.id)}
                 onKeyDown={(e) => handleKey(e, stage.id)}
                 role="button"
                 tabIndex={0}
@@ -536,6 +460,7 @@ export default function StageMap({ selected, onChange }: Props) {
             );
           })}
         </svg>
+        </div>
       </div>
     </section>
   );
