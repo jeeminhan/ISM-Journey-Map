@@ -64,7 +64,7 @@ export const stages: StageInfo[] = [
     subtitle: "The Missed Window",
     emotion: "Unaware & Self-Sufficient",
     description:
-      "The student arrives, studies for years, and returns home without a single meaningful Christian encounter. The church saw mission as something overseas — not on campus. This is the default outcome for most international students.",
+      "When the pre-arrival and early-arrival window is missed, the student can spend years on campus without a single meaningful Christian relationship. They arrive, study, and return home largely unseen. This is the default outcome for many international students.",
     color: "slate",
     faithMilestone: "unreached",
   },

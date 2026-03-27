@@ -128,6 +128,9 @@ interface Connection {
   to: LifecycleStage;
   path: string;
   color: string; // stroke colour
+  label?: string;
+  labelX?: number;
+  labelY?: number;
 }
 
 const CONNECTIONS: Connection[] = [
@@ -137,14 +140,61 @@ const CONNECTIONS: Connection[] = [
   { from: "integration", to: "leadership", path: "M632 210 C660 200,690 192,720 185", color: "rgba(255,255,255,0.35)" },
   { from: "leadership", to: "reentry", path: "M865 210 C895 225,920 245,940 258", color: "rgba(255,255,255,0.35)" },
   /* main → attrition – rose dashed */
-  { from: "pre-arrival", to: "invisible-years", path: "M120 260 C130 360,160 460,165 510", color: "rgba(251,113,133,0.30)" },
-  { from: "arrival", to: "invisible-years", path: "M280 350 C260 420,235 475,220 510", color: "rgba(251,113,133,0.30)" },
-  { from: "integration", to: "drift", path: "M530 290 C520 380,500 460,490 530", color: "rgba(251,113,133,0.30)" },
-  { from: "leadership", to: "silent-exit", path: "M770 250 C760 350,745 460,738 540", color: "rgba(251,113,133,0.30)" },
-  { from: "reentry", to: "cultural-reversion", path: "M1000 320 C995 400,982 470,975 510", color: "rgba(251,113,133,0.30)" },
+  {
+    from: "pre-arrival",
+    to: "invisible-years",
+    path: "M120 260 C130 360,160 460,165 510",
+    color: "rgba(251,113,133,0.30)",
+    label: "off-ramp",
+    labelX: 118,
+    labelY: 395,
+  },
+  {
+    from: "integration",
+    to: "drift",
+    path: "M530 290 C520 380,500 460,490 530",
+    color: "rgba(251,113,133,0.30)",
+    label: "loss point",
+    labelX: 500,
+    labelY: 415,
+  },
+  {
+    from: "leadership",
+    to: "silent-exit",
+    path: "M770 250 C760 350,745 460,738 540",
+    color: "rgba(251,113,133,0.30)",
+    label: "off-ramp",
+    labelX: 742,
+    labelY: 412,
+  },
+  {
+    from: "reentry",
+    to: "cultural-reversion",
+    path: "M1000 320 C995 400,982 470,975 510",
+    color: "rgba(251,113,133,0.30)",
+    label: "loss point",
+    labelX: 986,
+    labelY: 422,
+  },
   /* attrition ↔ attrition */
-  { from: "drift", to: "invisible-years", path: "M412 585 C360 580,310 575,270 568", color: "rgba(148,163,184,0.25)" },
-  { from: "silent-exit", to: "cultural-reversion", path: "M800 598 C845 592,880 582,902 572", color: "rgba(148,163,184,0.25)" },
+  {
+    from: "drift",
+    to: "invisible-years",
+    path: "M412 585 C360 580,310 575,270 568",
+    color: "rgba(148,163,184,0.16)",
+    label: "deeper loss",
+    labelX: 340,
+    labelY: 552,
+  },
+  {
+    from: "silent-exit",
+    to: "cultural-reversion",
+    path: "M800 598 C845 592,880 582,902 572",
+    color: "rgba(148,163,184,0.16)",
+    label: "downstream fallout",
+    labelX: 850,
+    labelY: 560,
+  },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -263,16 +313,22 @@ function Anchor() {
 
 export default function StageMap({ selected, onChange }: Props) {
   const router = useRouter();
+  const stageMap = Object.fromEntries(stages.map((s) => [s.id, s])) as Record<LifecycleStage, (typeof stages)[number]>;
 
   const handleChange = useCallback(
     (id: LifecycleStage) => {
       if (onChange) {
         onChange(id);
       } else {
-        router.push(`/stage/${id}`);
+        const stage = stageMap[id];
+        const params = new URLSearchParams({ stage: id });
+        if (stage?.stageType === "main") {
+          params.set("bg", "muslim");
+        }
+        router.push(`/?${params.toString()}`);
       }
     },
-    [onChange, router],
+    [onChange, router, stageMap],
   );
 
   const handleKey = useCallback(
@@ -285,10 +341,22 @@ export default function StageMap({ selected, onChange }: Props) {
     [handleChange],
   );
 
-  const stageMap = Object.fromEntries(stages.map((s) => [s.id, s])) as Record<LifecycleStage, (typeof stages)[number]>;
-
   return (
     <section className="rounded-2xl border border-white/10 bg-slate-900/70 p-4 md:p-6">
+      <div className="mb-4 flex flex-wrap gap-3 text-xs text-slate-300">
+        <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5">
+          <span className="h-0 w-7 border-t-2 border-dashed border-white/50" aria-hidden="true" />
+          <span>Primary route</span>
+        </div>
+        <div className="inline-flex items-center gap-2 rounded-full border border-rose-500/20 bg-rose-950/20 px-3 py-1.5">
+          <span className="h-0 w-7 border-t-2 border-dashed border-rose-300/60" aria-hidden="true" />
+          <span>Attrition risk / off-ramp</span>
+        </div>
+        <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-slate-400">
+          Top islands = intended journey. Lowlands = where students are commonly lost.
+        </div>
+      </div>
+
       {/* Scroll hint — only visible on mobile */}
       <p className="md:hidden text-xs text-slate-500 text-right mb-2 select-none">scroll to explore →</p>
 
@@ -356,6 +424,19 @@ export default function StageMap({ selected, onChange }: Props) {
             A MAP OF THE INTERNATIONAL STUDENT LIFECYCLE
           </text>
 
+          <text
+            x={600}
+            y={106}
+            textAnchor="middle"
+            fontFamily="'Inter', system-ui, sans-serif"
+            fontSize={12}
+            fill="#cbd5e1"
+            opacity={0.7}
+            letterSpacing={2}
+          >
+            PRIMARY ROUTE - intended progression from left to right
+          </text>
+
           {/* Dividing label */}
           <text
             x={600}
@@ -363,11 +444,11 @@ export default function StageMap({ selected, onChange }: Props) {
             textAnchor="middle"
             fontFamily="Georgia, serif"
             fontSize={11}
-            fill="#94a3b8"
-            opacity={0.35}
-            letterSpacing={3}
+            fill="#fda4af"
+            opacity={0.7}
+            letterSpacing={2}
           >
-            THE LOWLANDS &mdash; ATTRITION TERRITORY
+            THE LOWLANDS - attrition territory when support breaks down
           </text>
 
           {/* Decorative elements */}
@@ -380,15 +461,52 @@ export default function StageMap({ selected, onChange }: Props) {
 
           {/* Connection paths (behind regions) */}
           {CONNECTIONS.map((c, i) => (
-            <path
-              key={i}
-              d={c.path}
-              fill="none"
-              stroke={c.color}
-              strokeWidth={2}
-              strokeDasharray="8 6"
-              strokeLinecap="round"
-            />
+            <g key={i}>
+              <path
+                d={c.path}
+                fill="none"
+                stroke={c.color}
+                strokeWidth={2}
+                strokeDasharray="8 6"
+                strokeLinecap="round"
+              />
+              {c.label && c.labelX && c.labelY ? (
+                <g>
+                  {(() => {
+                    const isRoseLabel = c.color.includes("251,113,133");
+                    const isWideLabel = c.label.length > 10;
+                    const labelWidth = isWideLabel ? 88 : 60;
+                    const labelOffset = isWideLabel ? 44 : 30;
+
+                    return (
+                      <>
+                  <rect
+                    x={c.labelX - labelOffset}
+                    y={c.labelY - 11}
+                    width={labelWidth}
+                    height={18}
+                    rx={9}
+                    fill={isRoseLabel ? "#190f16" : "#111827"}
+                    fillOpacity={0.9}
+                  />
+                  <text
+                    x={c.labelX}
+                    y={c.labelY + 1}
+                    textAnchor="middle"
+                    fontFamily="'Inter', system-ui, sans-serif"
+                    fontSize={9}
+                    fontWeight={700}
+                    fill={isRoseLabel ? "#fda4af" : "#cbd5e1"}
+                    letterSpacing={1.2}
+                  >
+                    {c.label.toUpperCase()}
+                  </text>
+                      </>
+                    );
+                  })()}
+                </g>
+              ) : null}
+            </g>
           ))}
 
           {/* Regions */}
