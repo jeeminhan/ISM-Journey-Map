@@ -12,7 +12,9 @@ interface Props {
 export default function BackgroundSelector({ selected, onChange }: Props) {
   return (
     <div role="group" aria-label="Filter by background" className="flex flex-wrap gap-2">
-      <span aria-hidden="true" className="text-sm text-slate-400 self-center mr-2">Filter by background:</span>
+      <span aria-hidden="true" className="text-[11px] uppercase tracking-widest text-slate-500 self-center mr-1">
+        Background:
+      </span>
       {backgrounds.map((bg) => (
         <button
           type="button"
@@ -21,12 +23,13 @@ export default function BackgroundSelector({ selected, onChange }: Props) {
           aria-pressed={selected === bg.id}
           className={clsx(
             "flex items-center gap-2 px-3 py-1.5 rounded-full text-sm border transition-all",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/50",
             selected === bg.id
-              ? "bg-white text-slate-900 border-white font-medium"
-              : "border-white/20 text-slate-300 hover:border-white/40"
+              ? "bg-white text-slate-900 border-white font-medium shadow-lg shadow-white/10 scale-[1.02]"
+              : "border-white/15 text-slate-300 hover:border-white/30 hover:bg-white/5 active:scale-95"
           )}
         >
-          <span aria-hidden="true">{bg.icon}</span>
+          <span aria-hidden="true" className="text-base">{bg.icon}</span>
           <span>{bg.label}</span>
         </button>
       ))}
