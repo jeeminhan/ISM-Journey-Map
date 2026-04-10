@@ -1,11 +1,5 @@
-import HomeJourneyExplorer from "@/components/HomeJourneyExplorer";
+import { redirect } from "next/navigation";
 
-interface Props {
-  searchParams: Promise<{ bg?: string; stage?: string }>;
-}
-
-export default async function Home({ searchParams }: Props) {
-  const { bg, stage } = await searchParams;
-
-  return <HomeJourneyExplorer backgroundParam={bg} stageParam={stage} />;
+export default function Home() {
+  redirect("/journey.html");
 }
