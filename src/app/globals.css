@@ -10,6 +10,8 @@
   }
 }
 
+/* ── Animations ── */
+
 @keyframes fade-in {
   from {
     opacity: 0;
@@ -22,4 +24,79 @@
 }
 .animate-fade-in {
   animation: fade-in 0.3s ease-out;
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-in-up {
+  animation: fade-in-up 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.animate-scale-in {
+  animation: scale-in 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Staggered animation delay helpers */
+.delay-75 { animation-delay: 75ms; animation-fill-mode: backwards; }
+.delay-150 { animation-delay: 150ms; animation-fill-mode: backwards; }
+.delay-225 { animation-delay: 225ms; animation-fill-mode: backwards; }
+.delay-300 { animation-delay: 300ms; animation-fill-mode: backwards; }
+
+/* ── Print Styles ── */
+
+@media print {
+  body {
+    background: white !important;
+    color: #111 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Hide screen content, show print content */
+  [data-screen-only] {
+    display: none !important;
+  }
+
+  [data-print-only] {
+    display: block !important;
+  }
+
+  header {
+    display: none !important;
+  }
+
+  /* Page setup */
+  @page {
+    size: letter;
+    margin: 0.5in;
+  }
+
+  /* Reset dark mode styles for print */
+  main {
+    padding: 0 !important;
+    max-width: 100% !important;
+  }
+}
+
+/* ── Screen-only: hide print content by default ── */
+[data-print-only] {
+  display: none;
 }
