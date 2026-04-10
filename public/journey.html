@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>River Map — ISM Journey</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0a1628; color: #e2e8f0; font-family: 'Inter', system-ui, sans-serif; padding: 40px; }
+  h1 { text-align: center; font-size: 26px; font-weight: 700; margin-bottom: 6px; letter-spacing: 1px; }
+  .subtitle { text-align: center; color: #64748b; font-size: 12px; margin-bottom: 32px; letter-spacing: 1.5px; }
+
+  .map-wrap { max-width: 1100px; margin: 0 auto; position: relative; }
+  svg { width: 100%; height: auto; display: block; }
+
+  .tip {
+    position: absolute; display: none; background: rgba(10,22,40,0.95); border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 10px; padding: 14px 18px; max-width: 260px; font-size: 12px; line-height: 1.55;
+    color: #cbd5e1; pointer-events: none; z-index: 10; box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  }
+  .tip strong { color: #f1f5f9; display: block; margin-bottom: 4px; font-size: 13px; }
+  .tip .toward { color: #6ee7b7; font-size: 11px; margin-top: 6px; }
+  .tip .away { color: #fda4af; font-size: 11px; margin-top: 4px; }
+
+  /* Intro section */
+  .intro {
+    max-width: 1100px; margin: 0 auto 40px; display: grid;
+    grid-template-columns: 1fr auto; gap: 32px; align-items: start;
+  }
+  .intro-card {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px; padding: 28px 32px;
+  }
+  .intro-card h2 { font-size: 16px; font-weight: 600; margin-bottom: 12px; color: #f1f5f9; }
+  .intro-card p { font-size: 13px; line-height: 1.7; color: #94a3b8; margin-bottom: 10px; }
+  .intro-card p:last-of-type { margin-bottom: 0; }
+  .intro-card .g { color: #34d399; }
+  .intro-card .r { color: #fb7185; }
+  .intro-card .cta-hint {
+    margin-top: 14px; font-size: 12px; color: #64748b;
+    border-top: 1px solid rgba(255,255,255,0.05); padding-top: 12px;
+  }
+
+  .intro-stats {
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .stat {
+    display: flex; align-items: center; gap: 14px;
+    background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 12px; padding: 14px 20px; min-width: 200px;
+  }
+  .stat-num {
+    font-size: 28px; font-weight: 700; color: #e2e8f0; min-width: 40px; text-align: center;
+  }
+  .stat-label { font-size: 12px; font-weight: 600; color: #94a3b8; line-height: 1.4; }
+  .stat-label small { font-weight: 400; color: #64748b; font-size: 11px; }
+
+  /* Detail link banner */
+  .detail-link {
+    max-width: 1100px; margin: 28px auto 0; text-align: center;
+  }
+  .detail-link a {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: rgba(99,102,241,0.08); border: 1px solid rgba(129,140,248,0.2);
+    border-radius: 12px; padding: 14px 28px; color: #818cf8;
+    font-size: 14px; font-weight: 600; text-decoration: none; transition: all 0.2s;
+  }
+  .detail-link a:hover {
+    background: rgba(99,102,241,0.15); border-color: rgba(129,140,248,0.4);
+    transform: translateY(-1px);
+  }
+  .detail-link a .arrow { font-size: 18px; }
+  .detail-link p { font-size: 12px; color: #475569; margin-top: 8px; }
+
+  .legend { display: flex; gap: 24px; justify-content: center; margin-top: 24px; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #94a3b8; }
+</style>
+</head>
+<body>
+
+<h1>The International Student Journey</h1>
+<p class="subtitle">HOW EVERY INTERNATIONAL STUDENT MOVES THROUGH LIFE ABROAD &mdash; AND WHERE FAITH ENTERS THE PICTURE</p>
+
+<div class="intro">
+  <div class="intro-card">
+    <h2>How to read this map</h2>
+    <p>Every international student flows through the same lifecycle: <strong>Pre-Arrival</strong> &rarr; <strong>Arrival</strong> &rarr; <strong>Integration</strong> &rarr; <strong>Re-Entry</strong>. That's the horizontal current &mdash; it's universal, regardless of faith.</p>
+    <p>The five channels represent <strong>spiritual posture</strong> &mdash; where a student stands in relation to Christianity. Students can move between channels at any stage. <span class="g">Green connections</span> show what draws someone closer to Christ. <span class="r">Red connections</span> show what pushes them away.</p>
+    <p class="cta-hint">Click any node to explore the full detail grid &darr;</p>
+  </div>
+  <div class="intro-stats">
+    <div class="stat">
+      <span class="stat-num">4</span>
+      <span class="stat-label">Lifecycle stages<br><small>every student experiences</small></span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">5</span>
+      <span class="stat-label">Spiritual postures<br><small>from resistant to Christian</small></span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">&harr;</span>
+      <span class="stat-label">Bidirectional<br><small>movement at every stage</small></span>
+    </div>
+  </div>
+</div>
+
+<div class="map-wrap">
+  <div class="tip" id="tip"></div>
+
+  <svg viewBox="0 0 1100 650" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <filter id="water-glow">
+        <feGaussianBlur stdDeviation="4" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <filter id="ripple">
+        <feGaussianBlur stdDeviation="2"/>
+      </filter>
+
+      <!-- Water flow animation -->
+      <pattern id="flow" x="0" y="0" width="40" height="10" patternUnits="userSpaceOnUse">
+        <circle cx="5" cy="5" r="1" fill="rgba(255,255,255,0.1)">
+          <animate attributeName="cx" values="5;45" dur="3s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="25" cy="3" r="0.8" fill="rgba(255,255,255,0.07)">
+          <animate attributeName="cx" values="25;65" dur="4s" repeatCount="indefinite"/>
+        </circle>
+      </pattern>
+
+      <!-- Waterfall animation -->
+      <pattern id="fall" x="0" y="0" width="10" height="20" patternUnits="userSpaceOnUse">
+        <circle cx="5" cy="3" r="0.8" fill="rgba(255,255,255,0.15)">
+          <animate attributeName="cy" values="3;23" dur="1.5s" repeatCount="indefinite"/>
+        </circle>
+      </pattern>
+    </defs>
+
+    <!-- Stage zone backgrounds -->
+    <rect x="100" y="30" width="220" height="590" rx="8" fill="rgba(99,102,241,0.03)" stroke="rgba(99,102,241,0.08)" stroke-width="1"/>
+    <rect x="340" y="30" width="220" height="590" rx="8" fill="rgba(139,92,246,0.03)" stroke="rgba(139,92,246,0.08)" stroke-width="1"/>
+    <rect x="580" y="30" width="220" height="590" rx="8" fill="rgba(59,130,246,0.03)" stroke="rgba(59,130,246,0.08)" stroke-width="1"/>
+    <rect x="820" y="30" width="220" height="590" rx="8" fill="rgba(245,158,11,0.03)" stroke="rgba(245,158,11,0.08)" stroke-width="1"/>
+
+    <!-- Stage labels -->
+    <text x="210" y="55" fill="#818cf8" font-size="13" font-weight="600" text-anchor="middle">Pre-Arrival</text>
+    <text x="450" y="55" fill="#a78bfa" font-size="13" font-weight="600" text-anchor="middle">Arrival</text>
+    <text x="690" y="55" fill="#60a5fa" font-size="13" font-weight="600" text-anchor="middle">Integration</text>
+    <text x="930" y="55" fill="#fbbf24" font-size="13" font-weight="600" text-anchor="middle">Re-Entry</text>
+
+    <!-- ====== RIVER CHANNELS ====== -->
+
+    <!-- Channel 5: Christian (top, y~100) -->
+    <path d="M80,100 C180,100 280,95 360,100 C440,105 540,95 620,100 C700,105 800,95 860,100 C920,105 1000,100 1060,100"
+          stroke="#10b981" stroke-width="22" fill="none" opacity="0.15" stroke-linecap="round"/>
+    <path d="M80,100 C180,100 280,95 360,100 C440,105 540,95 620,100 C700,105 800,95 860,100 C920,105 1000,100 1060,100"
+          stroke="#10b981" stroke-width="2" fill="none" opacity="0.5" stroke-linecap="round"/>
+    <text x="50" y="104" fill="#10b981" font-size="10" font-weight="600" text-anchor="end">Christian</text>
+
+    <!-- Channel 4: Seeking (y~220) -->
+    <path d="M80,220 C180,218 280,225 360,220 C440,215 540,225 620,220 C700,215 800,225 860,220 C920,215 1000,220 1060,220"
+          stroke="#3b82f6" stroke-width="22" fill="none" opacity="0.12" stroke-linecap="round"/>
+    <path d="M80,220 C180,218 280,225 360,220 C440,215 540,225 620,220 C700,215 800,225 860,220 C920,215 1000,220 1060,220"
+          stroke="#3b82f6" stroke-width="2" fill="none" opacity="0.5" stroke-linecap="round"/>
+    <text x="50" y="224" fill="#3b82f6" font-size="10" font-weight="600" text-anchor="end">Seeking</text>
+
+    <!-- Channel 3: Open (y~340) -->
+    <path d="M80,340 C180,342 280,335 360,340 C440,345 540,335 620,340 C700,345 800,335 860,340 C920,345 1000,340 1060,340"
+          stroke="#eab308" stroke-width="22" fill="none" opacity="0.10" stroke-linecap="round"/>
+    <path d="M80,340 C180,342 280,335 360,340 C440,345 540,335 620,340 C700,345 800,335 860,340 C920,345 1000,340 1060,340"
+          stroke="#eab308" stroke-width="2" fill="none" opacity="0.5" stroke-linecap="round"/>
+    <text x="50" y="344" fill="#eab308" font-size="10" font-weight="600" text-anchor="end">Open</text>
+
+    <!-- Channel 2: Unaware (y~460) -->
+    <path d="M80,460 C180,458 280,465 360,460 C440,455 540,465 620,460 C700,455 800,465 860,460 C920,455 1000,460 1060,460"
+          stroke="#f97316" stroke-width="22" fill="none" opacity="0.10" stroke-linecap="round"/>
+    <path d="M80,460 C180,458 280,465 360,460 C440,455 540,465 620,460 C700,455 800,465 860,460 C920,455 1000,460 1060,460"
+          stroke="#f97316" stroke-width="2" fill="none" opacity="0.5" stroke-linecap="round"/>
+    <text x="50" y="464" fill="#f97316" font-size="10" font-weight="600" text-anchor="end">Unaware</text>
+
+    <!-- Channel 1: Resistant (bottom, y~570) -->
+    <path d="M80,570 C180,572 280,565 360,570 C440,575 540,565 620,570 C700,575 800,565 860,570 C920,575 1000,570 1060,570"
+          stroke="#ef4444" stroke-width="22" fill="none" opacity="0.10" stroke-linecap="round"/>
+    <path d="M80,570 C180,572 280,565 360,570 C440,575 540,565 620,570 C700,575 800,565 860,570 C920,575 1000,570 1060,570"
+          stroke="#ef4444" stroke-width="2" fill="none" opacity="0.5" stroke-linecap="round"/>
+    <text x="50" y="574" fill="#ef4444" font-size="10" font-weight="600" text-anchor="end">Resistant</text>
+
+    <!-- ====== WATERFALLS / BRIDGES between channels ====== -->
+    <!-- These are vertical connections between channels, shown at each stage -->
+
+    <!-- At each stage: upward waterfalls (green) and downward rapids (red) -->
+    <!-- Pre-Arrival connections -->
+    <line x1="200" y1="555" x2="200" y2="475" stroke="#34d399" stroke-width="2" stroke-dasharray="4,3" opacity="0.4"/>
+    <line x1="220" y1="475" x2="220" y2="555" stroke="#fb7185" stroke-width="2" stroke-dasharray="4,3" opacity="0.3"/>
+    <line x1="200" y1="445" x2="200" y2="355" stroke="#34d399" stroke-width="2" stroke-dasharray="4,3" opacity="0.4"/>
+    <line x1="220" y1="355" x2="220" y2="445" stroke="#fb7185" stroke-width="2" stroke-dasharray="4,3" opacity="0.3"/>
+    <line x1="200" y1="325" x2="200" y2="235" stroke="#34d399" stroke-width="2" stroke-dasharray="4,3" opacity="0.4"/>
+    <line x1="220" y1="235" x2="220" y2="325" stroke="#fb7185" stroke-width="2" stroke-dasharray="4,3" opacity="0.3"/>
+    <line x1="200" y1="205" x2="200" y2="115" stroke="#34d399" stroke-width="2" stroke-dasharray="4,3" opacity="0.5"/>
+    <line x1="220" y1="115" x2="220" y2="205" stroke="#fb7185" stroke-width="2" stroke-dasharray="4,3" opacity="0.3"/>
+
+    <!-- Arrival connections -->
+    <line x1="440" y1="555" x2="440" y2="475" stroke="#34d399" stroke-width="2" stroke-dasharray="4,3" opacity="0.4"/>
+    <line x1="460" y1="475" x2="460" y2="555" stroke="#fb7185" stroke-width="2" stroke-dasharray="4,3" opacity="0.3"/>
+    <line x1="440" y1="445" x2="440" y2="355" stroke="#34d399" stroke-width="2" stroke-dasharray="4,3" opacity="0.4"/>
+    <line x1="460" y1="355" x2="460" y2="445" stroke="#fb7185" stroke-width="2" stroke-dasharray="4,3" opacity="0.3"/>
+    <line x1="440" y1="325" x2="440" y2="235" stroke="#34d399" stroke-width="2" stroke-dasharray="4,3" opacity="0.4"/>
+    <line x1="460" y1="235" x2="460" y2="325" stroke="#fb7185" stroke-width="2" stroke-dasharray="4,3" opacity="0.3"/>
+    <line x1="440" y1="205" x2="440" y2="115" stroke="#34d399" stroke-width="2" stroke-dasharray="4,3" opacity="0.5"/>
+    <line x1="460" y1="115" x2="460" y2="205" stroke="#fb7185" stroke-width="2" stroke-dasharray="4,3" opacity="0.3"/>
+
+    <!-- Integration connections -->
+    <line x1="680" y1="555" x2="680" y2="475" stroke="#34d399" stroke-width="2" stroke-dasharray="4,3" opacity="0.4"/>
+    <line x1="700" y1="475" x2="700" y2="555" stroke="#fb7185" stroke-width="2" stroke-dasharray="4,3" opacity="0.3"/>
+    <line x1="680" y1="445" x2="680" y2="355" stroke="#34d399" stroke-width="2" stroke-dasharray="4,3" opacity="0.4"/>
+    <line x1="700" y1="355" x2="700" y2="445" stroke="#fb7185" stroke-width="2" stroke-dasharray="4,3" opacity="0.3"/>
+    <line x1="680" y1="325" x2="680" y2="235" stroke="#34d399" stroke-width="2" stroke-dasharray="4,3" opacity="0.4"/>
+    <line x1="700" y1="235" x2="700" y2="325" stroke="#fb7185" stroke-width="2" stroke-dasharray="4,3" opacity="0.3"/>
+    <line x1="680" y1="205" x2="680" y2="115" stroke="#34d399" stroke-width="2" stroke-dasharray="4,3" opacity="0.5"/>
+    <line x1="700" y1="115" x2="700" y2="205" stroke="#fb7185" stroke-width="2" stroke-dasharray="4,3" opacity="0.3"/>
+
+    <!-- Re-Entry connections -->
+    <line x1="920" y1="555" x2="920" y2="475" stroke="#34d399" stroke-width="2" stroke-dasharray="4,3" opacity="0.4"/>
+    <line x1="940" y1="475" x2="940" y2="555" stroke="#fb7185" stroke-width="2" stroke-dasharray="4,3" opacity="0.3"/>
+    <line x1="920" y1="445" x2="920" y2="355" stroke="#34d399" stroke-width="2" stroke-dasharray="4,3" opacity="0.4"/>
+    <line x1="940" y1="355" x2="940" y2="445" stroke="#fb7185" stroke-width="2" stroke-dasharray="4,3" opacity="0.3"/>
+    <line x1="920" y1="325" x2="920" y2="235" stroke="#34d399" stroke-width="2" stroke-dasharray="4,3" opacity="0.4"/>
+    <line x1="940" y1="235" x2="940" y2="325" stroke="#fb7185" stroke-width="2" stroke-dasharray="4,3" opacity="0.3"/>
+    <line x1="920" y1="205" x2="920" y2="115" stroke="#34d399" stroke-width="2" stroke-dasharray="4,3" opacity="0.5"/>
+    <line x1="940" y1="115" x2="940" y2="205" stroke="#fb7185" stroke-width="2" stroke-dasharray="4,3" opacity="0.3"/>
+
+    <!-- ====== LOCATION NODES ====== -->
+    <!-- Resistant -->
+    <g class="node" data-title="Burned before arriving" data-desc="Negative media, family warnings, past bad experience." data-toward="Time + distance softens wound." data-away="Anti-Christian content reinforces bias.">
+      <circle cx="210" cy="570" r="12" fill="rgba(239,68,68,0.25)" stroke="#ef4444" stroke-width="1.5"/><circle cx="210" cy="570" r="4" fill="#ef4444"/>
+    </g>
+    <g class="node" data-title="Felt targeted" data-desc="Aggressive evangelism. Felt like a project." data-toward="One genuine act of kindness." data-away="Pushy tract handout at airport.">
+      <circle cx="450" cy="570" r="12" fill="rgba(239,68,68,0.25)" stroke="#ef4444" stroke-width="1.5"/><circle cx="450" cy="570" r="4" fill="#ef4444"/>
+    </g>
+    <g class="node" data-title="Betrayed trust" data-desc="Friendship felt conditional. Saw hypocrisy." data-toward="A friend apologizes. Disarms the wall." data-away="Dinner was a gospel ambush.">
+      <circle cx="690" cy="570" r="12" fill="rgba(239,68,68,0.25)" stroke="#ef4444" stroke-width="1.5"/><circle cx="690" cy="570" r="4" fill="#ef4444"/>
+    </g>
+    <g class="node" data-title="Warns others" data-desc="Returns with a negative story. Ripple effect." data-toward="Reconnects with a good Christian online." data-away="Family validates the bad experience.">
+      <circle cx="930" cy="570" r="12" fill="rgba(239,68,68,0.25)" stroke="#ef4444" stroke-width="1.5"/><circle cx="930" cy="570" r="4" fill="#ef4444"/>
+    </g>
+
+    <!-- Unaware -->
+    <g class="node" data-title="Questions dormant" data-desc="Focused on logistics. Faith not on radar." data-toward="Sees a Christian's post online." data-away="Family warns about religious groups.">
+      <circle cx="210" cy="460" r="12" fill="rgba(249,115,22,0.25)" stroke="#f97316" stroke-width="1.5"/><circle cx="210" cy="460" r="4" fill="#f97316"/>
+    </g>
+    <g class="node" data-title="First encounter" data-desc="Christians are 'friendly locals.' Trust builds." data-toward="Invited to a meal with no strings." data-away="Overheard mocking their culture.">
+      <circle cx="450" cy="460" r="12" fill="rgba(249,115,22,0.25)" stroke="#f97316" stroke-width="1.5"/><circle cx="450" cy="460" r="4" fill="#f97316"/>
+    </g>
+    <g class="node" data-title="Curiosity through friendship" data-desc="Questions arise through relationships." data-toward="Roommate lives with integrity." data-away="Excluded at church event.">
+      <circle cx="690" cy="460" r="12" fill="rgba(249,115,22,0.25)" stroke="#f97316" stroke-width="1.5"/><circle cx="690" cy="460" r="4" fill="#f97316"/>
+    </g>
+    <g class="node" data-title="Returns without connection" data-desc="Reverse culture shock. No lasting ties." data-toward="Crisis triggers spiritual questions." data-away="No one follows up. Fades.">
+      <circle cx="930" cy="460" r="12" fill="rgba(249,115,22,0.25)" stroke="#f97316" stroke-width="1.5"/><circle cx="930" cy="460" r="4" fill="#f97316"/>
+    </g>
+
+    <!-- Open -->
+    <g class="node" data-title="Curious pre-departure" data-desc="Googling, asking about faith." data-toward="Finds a relatable testimony." data-away="Finds culture-war content.">
+      <circle cx="210" cy="340" r="12" fill="rgba(234,179,8,0.25)" stroke="#eab308" stroke-width="1.5"/><circle cx="210" cy="340" r="4" fill="#eab308"/>
+    </g>
+    <g class="node" data-title="Accepts invitations" data-desc="Says yes to meals, events, studies." data-toward="Bible study answers a real question." data-away="Pressured to pray before ready.">
+      <circle cx="450" cy="340" r="12" fill="rgba(234,179,8,0.25)" stroke="#eab308" stroke-width="1.5"/><circle cx="450" cy="340" r="4" fill="#eab308"/>
+    </g>
+    <g class="node" data-title="Exploring seriously" data-desc="Attending regularly. Hard questions." data-toward="Community shows up during a crisis." data-away="Can't answer questions. Gets defensive.">
+      <circle cx="690" cy="340" r="12" fill="rgba(234,179,8,0.25)" stroke="#eab308" stroke-width="1.5"/><circle cx="690" cy="340" r="4" fill="#eab308"/>
+    </g>
+    <g class="node" data-title="Doesn't fit at home" data-desc="Changed. Family doesn't understand." data-toward="Misses community. Seeks a church." data-away="Parents discover interest. Shame.">
+      <circle cx="930" cy="340" r="12" fill="rgba(234,179,8,0.25)" stroke="#eab308" stroke-width="1.5"/><circle cx="930" cy="340" r="4" fill="#eab308"/>
+    </g>
+
+    <!-- Seeking -->
+    <g class="node" data-title="Researching" data-desc="Reading, comparing religions. High intent." data-toward="Reads Gospel in own language." data-away="Must abandon culture to follow Jesus.">
+      <circle cx="210" cy="220" r="12" fill="rgba(59,130,246,0.25)" stroke="#3b82f6" stroke-width="1.5"/><circle cx="210" cy="220" r="4" fill="#3b82f6"/>
+    </g>
+    <g class="node" data-title="Looking for answers" data-desc="Seeks community on purpose." data-toward="Mentor walks through doubts." data-away="Told can't honor family as Christian.">
+      <circle cx="450" cy="220" r="12" fill="rgba(59,130,246,0.25)" stroke="#3b82f6" stroke-width="1.5"/><circle cx="450" cy="220" r="4" fill="#3b82f6"/>
+    </g>
+    <g class="node" data-title="Decision window" data-desc="Commitment often happens here." data-toward="Prays. Community celebrates." data-away="Church demands change before belonging.">
+      <circle cx="690" cy="220" r="12" fill="rgba(59,130,246,0.25)" stroke="#3b82f6" stroke-width="1.5"/><circle cx="690" cy="220" r="4" fill="#3b82f6"/>
+    </g>
+    <g class="node" data-title="Tested conviction" data-desc="Strong belief, untested at home." data-toward="Connected to believer at home." data-away="No preparation for cost. Faith crumbles.">
+      <circle cx="930" cy="220" r="12" fill="rgba(59,130,246,0.25)" stroke="#3b82f6" stroke-width="1.5"/><circle cx="930" cy="220" r="4" fill="#3b82f6"/>
+    </g>
+
+    <!-- Christian -->
+    <g class="node" data-title="Looking for church" data-desc="Wants to plug in and serve." data-toward="" data-away="">
+      <circle cx="210" cy="100" r="12" fill="rgba(16,185,129,0.25)" stroke="#10b981" stroke-width="1.5"/><circle cx="210" cy="100" r="4" fill="#10b981"/>
+    </g>
+    <g class="node" data-title="Worship style shock" data-desc="Faith real, expression different." data-toward="" data-away="">
+      <circle cx="450" cy="100" r="12" fill="rgba(16,185,129,0.25)" stroke="#10b981" stroke-width="1.5"/><circle cx="450" cy="100" r="4" fill="#10b981"/>
+    </g>
+    <g class="node" data-title="Cross-cultural deepening" data-desc="Growing through difference." data-toward="" data-away="">
+      <circle cx="690" cy="100" r="12" fill="rgba(16,185,129,0.25)" stroke="#10b981" stroke-width="1.5"/><circle cx="690" cy="100" r="4" fill="#10b981"/>
+    </g>
+    <g class="node" data-title="Reverse shock + faith" data-desc="Worship different at home." data-toward="" data-away="">
+      <circle cx="930" cy="100" r="12" fill="rgba(16,185,129,0.25)" stroke="#10b981" stroke-width="1.5"/><circle cx="930" cy="100" r="4" fill="#10b981"/>
+    </g>
+
+    <!-- Flow direction arrow -->
+    <text x="550" y="635" fill="#475569" font-size="10" text-anchor="middle" letter-spacing="3">LIFECYCLE FLOW &rarr;</text>
+  </svg>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><span style="color:#34d399; font-size:16px;">|</span> Upstream (toward Christ)</div>
+  <div class="legend-item"><span style="color:#fb7185; font-size:16px;">|</span> Downstream (pushed away)</div>
+  <div class="legend-item" style="color:#64748b;">Hover nodes for details</div>
+</div>
+
+<div class="detail-link">
+  <a href="journey-detail.html">
+    Explore the full detail grid <span class="arrow">&rarr;</span>
+  </a>
+  <p>See every posture &times; stage combination with specific triggers that move students toward or away from Christ</p>
+</div>
+
+<script>
+const tip = document.getElementById('tip');
+document.querySelectorAll('.node').forEach(n => {
+  n.style.cursor = 'pointer';
+  n.addEventListener('mouseenter', e => {
+    const r = n.getBoundingClientRect();
+    const wr = document.querySelector('.map-wrap').getBoundingClientRect();
+    const d = n.dataset;
+    let html = `<strong>${d.title}</strong>${d.desc}`;
+    if (d.toward) html += `<div class="toward">&darr; ${d.toward}</div>`;
+    if (d.away) html += `<div class="away">&uarr; ${d.away}</div>`;
+    html += `<div style="margin-top:8px;font-size:10px;color:#818cf8;">Click to see full detail &rarr;</div>`;
+    tip.innerHTML = html;
+    tip.style.display = 'block';
+    tip.style.left = (r.left - wr.left + 20) + 'px';
+    tip.style.top = (r.top - wr.top - 10) + 'px';
+  });
+  n.addEventListener('mouseleave', () => tip.style.display = 'none');
+  n.addEventListener('click', () => {
+    window.location.href = 'journey-detail.html';
+  });
+});
+</script>
+
+</body>
+</html>
